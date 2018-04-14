@@ -33,7 +33,7 @@ let restartCount = 0;
 let autoRestart = true;
 
 function backupLogFile() {
-    fs.copyFileSync(conf.log_dir + '/eos.log', conf.log_dir + '/eos-' + (new Date().getTime()) + '.log', COPYFILE_EXCL);
+    fs.copyFileSync(conf.log_dir + '/' + conf.log_name, conf.log_dir + '/eos-' + (new Date().getTime()) + '.log', COPYFILE_EXCL);
 }
 
 function restartNode() {
@@ -42,7 +42,7 @@ function restartNode() {
     if (!fs.existsSync(conf.log_dir)){
         fs.mkdirSync(conf.log_dir);
     }
-    const logStream = fs.createWriteStream(conf.log_dir + '/eos.log', {flags: 'w'});
+    const logStream = fs.createWriteStream(conf.log_dir + '/' + conf.log_name, {flags: 'w'});
     const args = ['--enable-stale-production', conf.enable_stale_prod, '--data-dir', conf.data_path, '--config-dir', conf.config_path];
     child_proc = spawn(nodeos, args, {detached: true}, (error, stdout, stderr) => {
         if (error) {
